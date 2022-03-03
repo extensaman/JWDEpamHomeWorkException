@@ -9,6 +9,13 @@ public final class Client implements Serializable {
     private final String phone;
     private final String email;
 
+    public Client(){
+        name = "";
+        surname = "";
+        phone = "";
+        email = "";
+    };
+
     public Client(String name, String surname, String phone, String email) {
         this.name = name;
         this.surname = surname;
@@ -46,5 +53,15 @@ public final class Client implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, surname, phone, email);
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

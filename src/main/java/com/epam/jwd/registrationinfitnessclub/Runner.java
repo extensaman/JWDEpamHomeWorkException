@@ -1,11 +1,16 @@
 package com.epam.jwd.registrationinfitnessclub;
 
+import com.epam.jwd.registrationinfitnessclub.dao.DAOClient;
+import com.epam.jwd.registrationinfitnessclub.dao.DAOService;
+import com.epam.jwd.registrationinfitnessclub.dao.fileworker.FileWorker;
+import com.epam.jwd.registrationinfitnessclub.dao.fileworker.JsonClientFileWorker;
 import com.epam.jwd.registrationinfitnessclub.entity.Client;
-import com.epam.jwd.registrationinfitnessclub.filewriter.WriteJsonClientData;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.epam.jwd.registrationinfitnessclub.service.FileWithClientCreator;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Write an application that provides the user with the ability
@@ -21,8 +26,16 @@ public class Runner {
 
     public static void main(String[] args) {
         File file = new File(FILE_PATH);
-        Client client01 = new Client("Bill", "Clinton","+19017658912","billy@whitehouse.us");
-        WriteJsonClientData jsonWriter = new WriteJsonClientData();
-        jsonWriter.writeValue(file, client01);
+        FileWorker<Client> clientFileWorker = new JsonClientFileWorker(file, Client.class);
+        FileWithClientCreator.start(clientFileWorker);
+
+        DAOService<Client> clientDAOService = DAOClient.getInstance();
+        clientDAOService.load(clientFileWorker);
+
+        Collection<Client> result = new ArrayList<>();
+        //result = clientFileWorker.readCollection();
+        //System.out.println(result);
+        /*WriteJsonClientData jsonWriter = new WriteJsonClientData();
+        jsonWriter.writeValue(file, client01);*/
     }
 }

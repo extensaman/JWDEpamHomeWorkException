@@ -5,4 +5,7 @@ public class Account {
     private String password;
     private AccountStatus status;
 
+
+
+
 }
