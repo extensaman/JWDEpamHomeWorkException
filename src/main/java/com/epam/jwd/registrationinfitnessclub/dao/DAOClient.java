@@ -6,6 +6,7 @@ import com.epam.jwd.registrationinfitnessclub.entity.Client;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class DAOClient implements DAOService<Client> {
     private static final DAOClient INSTANCE = new DAOClient();
@@ -30,12 +31,17 @@ public class DAOClient implements DAOService<Client> {
     }
 
     @Override
+    public void insert(Client client) {
+        clientMap.put(nextId++, client);
+    }
+
+    @Override
     public void deleteAll() {
         clientMap.clear();
     }
 
     @Override
-    public Client find(Long id) {
-        return clientMap.get(id);
+    public Optional<Client> find(Long id) {
+        return Optional.of(clientMap.get(id));
     }
 }

@@ -5,6 +5,7 @@ import com.epam.jwd.registrationinfitnessclub.dao.DAOService;
 import com.epam.jwd.registrationinfitnessclub.dao.fileworker.FileWorker;
 import com.epam.jwd.registrationinfitnessclub.dao.fileworker.JsonClientFileWorker;
 import com.epam.jwd.registrationinfitnessclub.entity.Client;
+import com.epam.jwd.registrationinfitnessclub.logic.AccountWorker;
 import com.epam.jwd.registrationinfitnessclub.service.FileWithClientCreator;
 
 import java.io.File;
@@ -31,6 +32,9 @@ public class Runner {
 
         DAOService<Client> clientDAOService = DAOClient.getInstance();
         clientDAOService.load(clientFileWorker);
+
+        AccountWorker accountWorker = new AccountWorker(clientDAOService);
+        accountWorker.create(1L, "dsfs");
 
         Collection<Client> result = new ArrayList<>();
         //result = clientFileWorker.readCollection();
