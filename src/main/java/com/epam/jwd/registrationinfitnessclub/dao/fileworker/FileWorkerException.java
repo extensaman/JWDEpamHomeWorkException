@@ -1,6 +1,6 @@
 package com.epam.jwd.registrationinfitnessclub.dao.fileworker;
 
-public class FileWorkerException extends RuntimeException{
+public class FileWorkerException extends Exception {
     public FileWorkerException() {
     }
 

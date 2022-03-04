@@ -14,7 +14,7 @@ public class ClientValidator {
     public static final String EMAIL_REGEX = "[0-9a-zA-Z-_.]+@[0-9a-zA-Z]+.[a-zA-Z]+";
 
     public boolean check() {
-        return  checkName() && checkSurname() && checkPhone() && checkEmail();
+        return checkName() && checkSurname() && checkPhone() && checkEmail();
     }
 
     public boolean checkName() {

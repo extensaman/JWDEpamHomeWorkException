@@ -9,12 +9,14 @@ public final class Client implements Serializable {
     private final String phone;
     private final String email;
 
-    public Client(){
+    public Client() {
         name = "";
         surname = "";
         phone = "";
         email = "";
-    };
+    }
+
+    ;
 
     public Client(String name, String surname, String phone, String email) {
         this.name = name;

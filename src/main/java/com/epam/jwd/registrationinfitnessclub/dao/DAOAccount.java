@@ -1,14 +1,17 @@
 package com.epam.jwd.registrationinfitnessclub.dao;
 
 import com.epam.jwd.registrationinfitnessclub.dao.fileworker.FileWorker;
+import com.epam.jwd.registrationinfitnessclub.dao.fileworker.FileWorkerException;
 import com.epam.jwd.registrationinfitnessclub.entity.Account;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
-public class DAOAccount implements DAOService<Account>{
+
+public class DAOAccount implements DAOService<Account> {
     private static final DAOAccount INSTANCE = new DAOAccount();
     private final Map<Long, Account> accountMap = new HashMap<>();
     private static Long nextId = 1L;
@@ -21,13 +24,18 @@ public class DAOAccount implements DAOService<Account>{
     }
 
     @Override
-    public void load(FileWorker<Account> fileWorker) {
-        // will be implemented if necessary
+    public void load(FileWorker<Account> fileWorker) throws FileWorkerException {
+        insert(fileWorker.readCollection());
+    }
+
+    @Override
+    public void save(FileWorker<Account> fileWorker) throws FileWorkerException {
+        fileWorker.writeCollection(accountMap.values());
     }
 
     @Override
     public void insert(Collection<Account> collection) {
-        // will be implemented if necessary
+        collection.forEach(client -> accountMap.put(nextId++, client));
     }
 
     @Override
@@ -41,8 +49,17 @@ public class DAOAccount implements DAOService<Account>{
     }
 
     @Override
+    public Set<Long> getKeySet() {
+        return accountMap.keySet();
+    }
+
+    @Override
     public Optional<Account> find(Long id) {
-        // will be implemented if necessary
-        return Optional.empty();
+        return Optional.of(accountMap.get(id));
+    }
+
+    @Override
+    public Collection<Account> findAll() {
+        return accountMap.values();
     }
 }

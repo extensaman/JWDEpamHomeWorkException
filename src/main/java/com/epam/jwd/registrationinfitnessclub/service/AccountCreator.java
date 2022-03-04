@@ -1,13 +1,17 @@
 package com.epam.jwd.registrationinfitnessclub.service;
 
 import com.epam.jwd.registrationinfitnessclub.entity.Account;
+import com.epam.jwd.registrationinfitnessclub.entity.AccountStatus;
 import com.epam.jwd.registrationinfitnessclub.entity.Client;
 import com.epam.jwd.registrationinfitnessclub.logic.AccountException;
 
-import java.util.Optional;
-
 public class AccountCreator {
     private static final AccountCreator INSTANCE = new AccountCreator();
+    public static final String CLIENT_S_NAME = "Client's name ";
+    public static final String IS_WRONG = " is wrong";
+    public static final String CLIENT_S_SURNAME = "Client's surname ";
+    public static final String CLIENT_S_PHONE = "Client's phone ";
+    public static final String CLIENT_S_EMAIL = "Client's email ";
 
     private AccountCreator() {
     }
@@ -16,23 +20,22 @@ public class AccountCreator {
         return INSTANCE;
     }
 
-    public Optional<Account> create(Client client, String password) {
+    public Account create(Client client, String password) throws AccountException {
         ClientValidator clientValidator = new ClientValidator(client);
 
         if (!clientValidator.checkName()) {
-            throw new AccountException("Client's name " + client.getName() + " is wrong");
+            throw new AccountException(CLIENT_S_NAME + client.getName() + IS_WRONG);
         }
         if (!clientValidator.checkSurname()) {
-            throw new AccountException("Client's surname " + client.getSurname() + " is wrong");
+            throw new AccountException(CLIENT_S_SURNAME + client.getSurname() + IS_WRONG);
         }
-        if (clientValidator.checkPhone()) {
-            throw new AccountException("Client's phone " + client.getPhone() + " is wrong");
+        if (!clientValidator.checkPhone()) {
+            throw new AccountException(CLIENT_S_PHONE + client.getPhone() + IS_WRONG);
         }
-        if (clientValidator.checkEmail()) {
-            throw new AccountException("Client's email " + client.getEmail() + " is wrong");
+        if (!clientValidator.checkEmail()) {
+            throw new AccountException(CLIENT_S_EMAIL + client.getEmail() + IS_WRONG);
         }
 
-        return Optional.
-
+        return new Account(client, password, AccountStatus.REGISTERED);
     }
 }
